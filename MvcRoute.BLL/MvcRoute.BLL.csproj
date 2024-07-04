@@ -4,4 +4,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MvcRoute.DAL\MvcRoute.DAL.csproj" />
+  </ItemGroup>
+
 </Project>
