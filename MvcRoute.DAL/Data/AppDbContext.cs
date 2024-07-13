@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace RouteMvcProject.DAL.Data
 {
 
-    internal class AppDbContext:DbContext
+    public class AppDbContext:DbContext
     {
         public DbSet<Department> Departments { get; set; }
         
@@ -20,9 +20,9 @@ namespace RouteMvcProject.DAL.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
 
-            optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=RouteMvcProject;Integrated Security=True;Trust Server Certificate=True");
+        //    optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=RouteMvcProject;Integrated Security=True;Trust Server Certificate=True");
         
     }
 }
