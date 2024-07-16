@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MvcRoute.BLL.Repositories
 {
-    internal class DepartmentRepository : IDepartmentRepository
+    public class DepartmentRepository : IEntityRepository<Department>
     {
         AppDbContext Context;
 
@@ -47,7 +47,8 @@ namespace MvcRoute.BLL.Repositories
 
         public int Update(Department entity)
         {
-            throw new NotImplementedException();
+              Context.Departments.Update(entity);
+              return Context.SaveChanges();
         }
     }
 }

@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MvcRoute.BLL.Interfaces;
+using MvcRoute.BLL.Repositories;
+using MvcRoute.DAL.Models;
 using RouteMvcProject.DAL.Data;
 using System;
 using System.Collections.Generic;
@@ -28,9 +31,9 @@ namespace MvcRoute.PL
             services.AddControllersWithViews();
             //services.AddTransient<AppDbContext>();
             //services.AddSingleton<AppDbContext>();
-            services.AddScoped<AppDbContext>();
+            //services.AddScoped<AppDbContext>();
 
-            services.AddScoped<DbContextOptions<AppDbContext>>();
+            //services.AddScoped<DbContextOptions<AppDbContext>>();
 
             services.AddDbContext<AppDbContext>(
             options =>
@@ -38,6 +41,9 @@ namespace MvcRoute.PL
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             
          );
+
+            services.AddTransient<IEntityRepository<Department>, DepartmentRepository>();
+            services.AddTransient<IEntityRepository<Employee>, EmployeeRepository>(); 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
