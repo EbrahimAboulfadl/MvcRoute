@@ -15,7 +15,7 @@ namespace MvcRoute.PL.Controllers
         {
             _departmentRepository = departmentRepository;
             _env = env;
-        }
+        }   
 
         public IActionResult Index()
         {

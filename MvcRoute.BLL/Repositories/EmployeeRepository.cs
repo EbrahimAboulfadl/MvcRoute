@@ -7,46 +7,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace MvcRoute.BLL.Repositories
 {
-    public class EmployeeRepository : IEntityRepository<Employee>
+    public class EmployeeRepository : EntityRepository<Employee>,IEmployeeRepository
     {
         AppDbContext Context;
 
-        public EmployeeRepository(AppDbContext context)
+        public EmployeeRepository(AppDbContext context):base(context)
         {
             Context = context;
         }
-        public int Add(Employee entity)
+
+        public IQueryable<Employee> GetEmployeesByAddress(string address)
         {
-            Context.Employees.Add(entity);
-
-            return Context.SaveChanges();
-        }
-        public int Delete(Employee entity)
-        {
-            Context.Employees.Remove(entity);
-
-            return Context.SaveChanges();
-
+            return Context.Employees.Where(e => e.Address.Contains(address));
         }
 
-        public Employee Get(int id)
-        {
-            return Context.Employees.Find(id);
-        }
 
-        public IEnumerable<Employee> GetAll()
-        {
-            return Context.Employees.AsNoTracking().ToList();
-        }
-
-        public int Update(Employee entity)
-        {
-            Context.Employees.Update(entity);
-            return Context.SaveChanges();
-        }
     }
 }
 

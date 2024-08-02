@@ -10,45 +10,15 @@ using System.Threading.Tasks;
 
 namespace MvcRoute.BLL.Repositories
 {
-    public class DepartmentRepository : IEntityRepository<Department>
+    public class DepartmentRepository : EntityRepository<Department>,IDepartmentRepository
     {
-        AppDbContext Context;
+       
 
-        public DepartmentRepository(AppDbContext context)
+        public DepartmentRepository(AppDbContext context):base(context) 
         {
-            Context = context;
+          
         }
 
-        public int Add(Department entity)
-        {
-           Context.Departments.Add(entity);
-           
-           return Context.SaveChanges();
-                
-        }
 
-        public int Delete(Department entity)
-        {
-            Context.Departments.Remove(entity);
-
-            return Context.SaveChanges();
-
-        }
-
-        public Department Get(int id)
-        {
-          return Context.Departments.Find(id);
-        }
-
-        public IEnumerable<Department> GetAll()
-        {
-           return Context.Departments.AsNoTracking().ToList();
-        }
-
-        public int Update(Department entity)
-        {
-              Context.Departments.Update(entity);
-              return Context.SaveChanges();
-        }
     }
 }
