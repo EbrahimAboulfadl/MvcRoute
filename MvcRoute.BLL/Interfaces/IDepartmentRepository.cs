@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MvcRoute.BLL.Interfaces
 {
-    internal interface IDepartmentRepository:IEntityRepository<Department>
+    public interface IDepartmentRepository:IEntityRepository<Department>
     {
 
     }

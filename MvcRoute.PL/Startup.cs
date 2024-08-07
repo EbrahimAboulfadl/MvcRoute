@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -8,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using MvcRoute.BLL.Interfaces;
 using MvcRoute.BLL.Repositories;
 using MvcRoute.DAL.Models;
+using MvcRoute.PL.Mapping_Profiles;
 using RouteMvcProject.DAL.Data;
 using System;
 using System.Collections.Generic;
@@ -34,11 +36,13 @@ namespace MvcRoute.PL
             //services.AddScoped<AppDbContext>();
 
             //services.AddScoped<DbContextOptions<AppDbContext>>();
-
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapper(p=>p.AddProfile(new EmployeeProfile())   );
             services.AddDbContext<AppDbContext>(
             options =>
             //options.UseSqlServer(Configuration.GetSection("ConnectionStrings").GetSection("DefaultConnection").Value)
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+            
             
          );
 

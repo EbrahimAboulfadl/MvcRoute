@@ -9,18 +9,18 @@ namespace MvcRoute.PL.Controllers
 {
     public class DepartmentsController : Controller
     {
-        private readonly IEntityRepository<Department> _departmentRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IWebHostEnvironment _env; 
-        public DepartmentsController(IEntityRepository<Department> departmentRepository ,IWebHostEnvironment env)
+        public DepartmentsController(IUnitOfWork unitOfWork ,IWebHostEnvironment env)
         {
-            _departmentRepository = departmentRepository;
+            this.unitOfWork = unitOfWork;
             _env = env;
         }   
 
         public IActionResult Index()
         {
             
-            return View(_departmentRepository.GetAll());
+            return View(unitOfWork.DepartmentRepository.GetAll());
         }
         [HttpGet]
         public IActionResult Create()
@@ -32,9 +32,10 @@ namespace MvcRoute.PL.Controllers
         public IActionResult Create(Department department)
         {
             if (ModelState.IsValid) { 
-            var count  =  _departmentRepository.Add(department);
+            var count  =  unitOfWork.DepartmentRepository.Add(department);
                 if (count > 0)
                 {
+                    TempData["Message"] = "Department Created Successfully"; 
                     return RedirectToAction("Index");
                 }
             }
@@ -46,7 +47,7 @@ namespace MvcRoute.PL.Controllers
         public IActionResult Details(int? id , string viewName = "Details") { 
         
             if (!id.HasValue) return BadRequest();
-            var department = _departmentRepository.Get(id.Value);
+            var department = unitOfWork.DepartmentRepository.Get(id.Value);
             if (department == null) return NotFound();
             return View(viewName,department); 
         }
@@ -64,7 +65,7 @@ namespace MvcRoute.PL.Controllers
             if (ModelState.IsValid) {
                 try
                 {
-                    _departmentRepository.Update(department);
+                    unitOfWork.DepartmentRepository.Update(department);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex) {
@@ -95,7 +96,7 @@ namespace MvcRoute.PL.Controllers
 
             try
             {
-                _departmentRepository.Delete(department);
+                unitOfWork.DepartmentRepository.Delete(department);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

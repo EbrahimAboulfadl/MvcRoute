@@ -1,27 +1,31 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MvcRoute.BLL.Interfaces;
 using MvcRoute.DAL.Models;
+using MvcRoute.PL.Models;
 using System;
 
 namespace MvcRoute.PL.Controllers
 {
     public class EmployeesController : Controller
     {
-
-        private readonly IEntityRepository<Employee> _employeeRepository;
+        private readonly IUnitOfWork unitOfWork;
         private readonly IWebHostEnvironment _env;
-        public EmployeesController(IEntityRepository<Employee> employeeRepository, IWebHostEnvironment env)
+        private readonly IMapper mapper;
+
+        public EmployeesController(IUnitOfWork unitOfWork, IWebHostEnvironment env , IMapper mapper)
         {
-            _employeeRepository = employeeRepository;
+            this.unitOfWork = unitOfWork;
             _env = env;
+            this.mapper = mapper;
         }
 
         public IActionResult Index()
         {
 
-            return View(_employeeRepository.GetAll());
+            return View(unitOfWork.EmployeeRepository.GetAll());
         }
         [HttpGet]
         public IActionResult Create()
@@ -29,18 +33,22 @@ namespace MvcRoute.PL.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeViewModel employeeVM)
         {
+            var mappedEmployee = mapper.Map<EmployeeViewModel,Employee>(employeeVM);
             if (ModelState.IsValid)
             {
-                var count = _employeeRepository.Add(employee);
+                var count = unitOfWork.EmployeeRepository.Add(mappedEmployee);
                 if (count > 0)
                 {
+
+                    TempData["Message"] = "Employee Added Successfully";
+
                     return RedirectToAction("Index");
                 }
             }
 
-            return View();
+            return View(employeeVM);
 
         }
 
@@ -48,7 +56,7 @@ namespace MvcRoute.PL.Controllers
         {
 
             if (!id.HasValue) return BadRequest();
-            var employee = _employeeRepository.Get(id.Value);
+            var employee = unitOfWork.EmployeeRepository.Get(id.Value);
             if (employee == null) return NotFound();
             return View(viewName, employee);
         }
@@ -67,7 +75,7 @@ namespace MvcRoute.PL.Controllers
             {
                 try
                 {
-                    _employeeRepository.Update(employee);
+                    unitOfWork.EmployeeRepository.Update(employee);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
@@ -102,7 +110,7 @@ namespace MvcRoute.PL.Controllers
 
             try
             {
-                _employeeRepository.Delete(employee);
+                unitOfWork.EmployeeRepository.Delete(employee);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
