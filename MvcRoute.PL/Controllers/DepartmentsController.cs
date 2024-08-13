@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using MvcRoute.BLL.Interfaces;
@@ -7,6 +8,7 @@ using System;
 
 namespace MvcRoute.PL.Controllers
 {
+    [Authorize]
     public class DepartmentsController : Controller
     {
         private readonly IUnitOfWork unitOfWork;

@@ -10,5 +10,6 @@ namespace MvcRoute.BLL.Interfaces
     {
         IEmployeeRepository EmployeeRepository { get; set; }
         IDepartmentRepository DepartmentRepository { get; set; }
+        IUsersRepository UsersRepository { get; set; }
     }
 }

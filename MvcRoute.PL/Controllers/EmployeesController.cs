@@ -1,14 +1,18 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
+using MvcRoute.BLL.Helper;
 using MvcRoute.BLL.Interfaces;
 using MvcRoute.DAL.Models;
 using MvcRoute.PL.Models;
 using System;
+using System.IO;
 
 namespace MvcRoute.PL.Controllers
 {
+    [Authorize]
     public class EmployeesController : Controller
     {
         private readonly IUnitOfWork unitOfWork;
@@ -21,7 +25,6 @@ namespace MvcRoute.PL.Controllers
             _env = env;
             this.mapper = mapper;
         }
-
         public IActionResult Index()
         {
 
@@ -30,14 +33,22 @@ namespace MvcRoute.PL.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Departments = unitOfWork.DepartmentRepository.GetAll();
             return View();
         }
         [HttpPost]
         public IActionResult Create(EmployeeViewModel employeeVM)
         {
+
             var mappedEmployee = mapper.Map<EmployeeViewModel,Employee>(employeeVM);
+            if (employeeVM.Image != null) {
+                mappedEmployee.Image =
+                FileHandler.UploadFile(employeeVM.Image, "images");
+            }
+
             if (ModelState.IsValid)
-            {
+            { 
+
                 var count = unitOfWork.EmployeeRepository.Add(mappedEmployee);
                 if (count > 0)
                 {
@@ -58,12 +69,15 @@ namespace MvcRoute.PL.Controllers
             if (!id.HasValue) return BadRequest();
             var employee = unitOfWork.EmployeeRepository.Get(id.Value);
             if (employee == null) return NotFound();
+            ViewBag.Departments = unitOfWork.DepartmentRepository.GetAll();
             return View(viewName, employee);
         }
 
         [HttpGet]
         public IActionResult Edit(int? id)
         {
+            ViewBag.Departments = unitOfWork.DepartmentRepository.GetAll();
+
             return Details(id, "Edit");
         }
 
@@ -110,7 +124,7 @@ namespace MvcRoute.PL.Controllers
 
             try
             {
-                unitOfWork.EmployeeRepository.Delete(employee);
+                unitOfWork.EmployeeRepository.Delete(employee,directoryPath:Directory.GetCurrentDirectory());
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

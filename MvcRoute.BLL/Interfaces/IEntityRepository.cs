@@ -16,7 +16,7 @@ namespace MvcRoute.BLL.Interfaces
 
         int Update(T entity);
 
-        int Delete(T entity);
+        int Delete(T entity,string directoryPath = null);
 
     }
 }

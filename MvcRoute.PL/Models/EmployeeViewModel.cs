@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace MvcRoute.PL.Models
 {
@@ -40,6 +41,9 @@ namespace MvcRoute.PL.Models
         //fk required => onDelete : Cascade
         [InverseProperty("Employees")]
         public Department Department { get; set; }
+
+        public IFormFile Image { get; set; }
+
 
     }
 }

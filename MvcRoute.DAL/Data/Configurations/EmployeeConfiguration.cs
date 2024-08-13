@@ -14,6 +14,7 @@ namespace MvcRoute.DAL.Data.Configurations
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.Property(x => x.Id).UseIdentityColumn(1, 1);
+            builder.Property(x => x.Salary).HasColumnType("salary");
         }
     }
 }

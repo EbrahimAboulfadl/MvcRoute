@@ -31,19 +31,21 @@ namespace MvcRoute.DAL.Models
         [Required()]
         [MaxLength(50)]
         public string Name { get; set; }
-        [Range(22,50)]
+        [Range(22, 50)]
         public int? Age { get; set; }
         public string Address { get; set; }
+
+        [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
-       
+
         public bool IsActive { get; set; } = true;
         public string Email { get; set; }
-        public string PhoneNumber {get; set; }
-        public DateTime HiringDate  { get; set; } = DateTime.Now;
+        public string PhoneNumber { get; set; }
+        public DateTime HiringDate { get; set; } = DateTime.Now;
 
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        public bool IsDeleted { get; set; } =false;
+        public bool IsDeleted { get; set; } = false;
         public Gender Gender { get; set; }
         public EmpType EmpType { get; set; }
 
@@ -53,6 +55,8 @@ namespace MvcRoute.DAL.Models
         //fk required => onDelete : Cascade
         [InverseProperty("Employees")]
         public Department Department { get; set; }
+
+        public string Image{get; set;}
 
 
     }

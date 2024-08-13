@@ -16,8 +16,12 @@ namespace MvcRoute.BLL.Repositories
 
         DepartmentRepository = new DepartmentRepository(dbContext);
 
+        UsersRepository = new UsersRepository(dbContext);
+
         }
         public IEmployeeRepository EmployeeRepository { get ; set; }
         public IDepartmentRepository DepartmentRepository { get ; set; }
+        public IUsersRepository UsersRepository { get ; set; }
+
     }
 }

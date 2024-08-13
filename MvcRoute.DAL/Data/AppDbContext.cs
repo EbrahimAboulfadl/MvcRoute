@@ -1,16 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MvcRoute.DAL.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RouteMvcProject.DAL.Data
 {
 
-    public class AppDbContext:DbContext
+    public class AppDbContext:IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> _options) : base(_options) { } 
         public DbSet<Department> Departments { get; set; }
@@ -20,6 +16,7 @@ namespace RouteMvcProject.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             
         }

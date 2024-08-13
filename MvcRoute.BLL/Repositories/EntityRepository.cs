@@ -20,7 +20,7 @@ namespace MvcRoute.BLL.Repositories
             return context.SaveChanges();
         }
 
-        public int Delete(T entity)
+        public virtual int Delete(T entity,string directory =null)
         {
             context.Set<T>().Remove(entity);
             return context.SaveChanges();
