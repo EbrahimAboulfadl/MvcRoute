@@ -1,0 +1,33 @@
+﻿@model Department
+@{
+    ViewData["Title"] = $"Edit {Model.Name}";
+}
+<h1>Edit @Model.Name</h1>
+<form method="post"      asp-action="Edit">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Code"></label>
+            <input asp-for="Code" class="form-control">
+            <span asp-validation-for="Code" class="text-danger"></span>
+
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="DateOfCreation"></label>
+            <input asp-for="DateOfCreation" class="form-control">
+            <span asp-validation-for="DateOfCreation" class="text-danger"></span>
+
+        </div>
+    </div>
+    <br />
+    <div class="row align-items-start">
+        <button class="col btn btn-primary" type="submit">Save Changes</button>
+        <a class="col btn-link" asp-action="Index">Back To List</a>
+
+    </div>
+
+</form>
