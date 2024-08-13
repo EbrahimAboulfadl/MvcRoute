@@ -1,6 +1,6 @@
 # RouteMvc
 
-![ASP.NET MVC](https://img.shields.io/badge/ASP.NET-MVC-blue.svg) ![C#](https://img.shields.io/badge/C%23-9.0-blue.svg) ![License](https://img.shields.io/badge/License-MIT-green.svg)
+![ASP.NET MVC](https://img.shields.io/badge/ASP.NET-MVC-blue.svg) ![C#](https://img.shields.io/badge/C%23-5.0-blue.svg) ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
 ## Overview
 
